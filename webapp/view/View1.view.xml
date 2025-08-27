@@ -1,93 +1,23 @@
 <mvc:View
-    xmlns:core="sap.ui.core"
     controllerName="zov.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
 >
     <Page
         id="page"
         title="{i18n>title}"
     >
-        <f:Form
-            id="FormChange354"
-            editable="true"
-        >
-            <f:title>
-                <core:Title text="Calculadora" />
-            </f:title>
-            <f:layout>
-                <f:ResponsiveGridLayout
-                    labelSpanXL="3"
-                    labelSpanL="3"
-                    labelSpanM="3"
-                    labelSpanS="12"
-                    adjustLabelSpan="false"
-                    emptySpanXL="4"
-                    emptySpanL="4"
-                    emptySpanM="4"
-                    emptySpanS="0"
-                    columnsL="1"
-                    columnsM="1"
-                    columnsXL="1"
-                    singleContainerFullSize="false"
-                />
-            </f:layout>
-            <f:formContainers>
-                <f:FormContainer>
-                    <f:formElements>
-                        <f:FormElement label="1° Bimestre">
-                            <f:fields>
-                                <Input
-                                    value=""
-                                    id="b1"
-                                />
-                            </f:fields>
-                        </f:FormElement>
-                        <f:FormElement label="2° Bimestre">
-                            <f:fields>
-                                <Input
-                                    value=""
-                                    id="b2"
-                                />
-                            </f:fields>
-                        </f:FormElement>
-                        <f:FormElement label="3° Bimestre">
-                            <f:fields>
-                                <Input
-                                    value=""
-                                    id="b3"
-                                />
-                            </f:fields>
-                        </f:FormElement>
-                        <f:FormElement label="4° Bimestre">
-                            <f:fields>
-                                <Input
-                                    value=""
-                                    id="b4"
-                                />
-                            </f:fields>
-                        </f:FormElement>
-                        <f:FormElement label="Resultado">
-                            <f:fields>
-                                <Input
-                                    value=""
-                                    id="resultado"
-                                    editable="false"
-                                />
-                            </f:fields>
-                        </f:FormElement>
-                        <f:FormElement label="">
-                            <f:fields>
-                                <Button
-                                    text="Calcular"
-                                    press="onCalcular"
-                                />
-                            </f:fields>
-                        </f:FormElement>
-                    </f:formElements>
-                </f:FormContainer>
-            </f:formContainers>
-        </f:Form>
+        <Text core:require="{ formatMessage : 'sap/base/strings/formatMessage' }"
+            text="{
+                parts: [
+                    {path: 'i18n>welcomeMsg'},
+                    {path: '/usuario/nome'}
+                ],
+                formatter: 'formatMessage'
+            }"
+         />
+
+        <Button text="Exibir Mensagem" press="onExibirMensagem"/>
     </Page>
 </mvc:View>
