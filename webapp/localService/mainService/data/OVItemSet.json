@@ -1,0 +1,38 @@
+[
+  {
+    "OrdemId": 10001,
+    "ItemId": 1,
+    "Material": "MAT-001",
+    "Descricao": "Teclado Mecânico",
+    "Quantidade": 2,
+    "PrecoUni": 150.25,
+    "PrecoTot": 300.50
+  },
+  {
+    "OrdemId": 10001,
+    "ItemId": 2,
+    "Material": "MAT-002",
+    "Descricao": "Monitor 27''",
+    "Quantidade": 1,
+    "PrecoUni": 1200.00,
+    "PrecoTot": 1200.00
+  },
+  {
+    "OrdemId": 10001,
+    "ItemId": 3,
+    "Material": "MAT-003",
+    "Descricao": "Mouse Gamer",
+    "Quantidade": 1,
+    "PrecoUni": 1700.00,
+    "PrecoTot": 1700.00
+  },
+  {
+    "OrdemId": 10002,
+    "ItemId": 1,
+    "Material": "MAT-010",
+    "Descricao": "Fone de Ouvido",
+    "Quantidade": 2,
+    "PrecoUni": 299.95,
+    "PrecoTot": 599.90
+  }
+]
