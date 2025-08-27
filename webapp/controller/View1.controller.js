@@ -6,8 +6,8 @@ sap.ui.define([
     return Controller.extend("zov.controller.View1", {
         onInit() {
         },
-        onPress: function () {
-            alert("Hello World!!!")
-        }
+		onPress: function(oEvent) {
+			alert("Hello World!!!")
+		}
     });
 });
