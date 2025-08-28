@@ -103,16 +103,32 @@
                         </Select>
                     </fb:control>
                 </fb:FilterItem>
+                <fb:FilterItem
+                    name="Limite"
+                    label="{i18n>Limite}"
+                >
+                    <fb:control>
+                        <Input value="{filter>/Limite}" />
+                    </fb:control>
+                </fb:FilterItem>
+                <fb:FilterItem
+                    name="Offset"
+                    label="{i18n>Offset}"
+                >
+                    <fb:control>
+                        <Input value="{filter>/Offset}" />
+                    </fb:control>
+                </fb:FilterItem>
             </fb:filterItems>
         </fb:FilterBar>
         <t:Table
             id="table1"
-            rows="{/OVCabSet}"
+            rows="{table>/}"
             selectionMode="MultiToggle"
             class="sapUiSmallMargin"
             rowMode="Fixed"
-            threshold="5"
-            visibleRowCount="5"
+            threshold="10"
+            visibleRowCount="10"
             enableBusyIndicator="true"
         >
             <t:toolbar>
@@ -131,7 +147,7 @@
                     <Label text="{i18n>OrdemId}" />
                     <t:template>
                         <Text
-                            text="{OrdemId}"
+                            text="{table>OrdemId}"
                             wrapping="false"
                         />
                     </t:template>
@@ -144,7 +160,7 @@
                     <t:template>
                         <Text
                             text="{
-                                path: 'DataCriacao',
+                                path: 'table>DataCriacao',
                                 type: 'sap.ui.model.odata.type.Date',
                                 formatOptions: {
                                     UTC: true,
@@ -164,7 +180,7 @@
                     <Label text="{i18n>ClienteId}" />
                     <t:template>
                         <Text
-                            text="{ClienteId}"
+                            text="{table>ClienteId}"
                             wrapping="false"
                         />
                     </t:template>
@@ -179,7 +195,7 @@
                     <Label text="{i18n>CriadoPor}" />
                     <t:template>
                         <Text
-                            text="{CriadoPor}"
+                            text="{table>CriadoPor}"
                             wrapping="false"
                         />
                     </t:template>
@@ -194,7 +210,7 @@
                     <Label text="{i18n>TotalItens}" />
                     <t:template>
                         <Text
-                            text="{TotalItens}"
+                            text="{table>TotalItens}"
                             wrapping="false"
                         />
                     </t:template>
@@ -209,7 +225,7 @@
                     <Label text="{i18n>TotalFrete}" />
                     <t:template>
                         <Text
-                            text="{TotalFrete}"
+                            text="{table>TotalFrete}"
                             wrapping="false"
                         />
                     </t:template>
@@ -224,7 +240,7 @@
                     <Label text="{i18n>TotalOrdem}" />
                     <t:template>
                         <Text
-                            text="{TotalOrdem}"
+                            text="{table>TotalOrdem}"
                             wrapping="false"
                         />
                     </t:template>
@@ -239,7 +255,7 @@
                     <Label text="{i18n>Status}" />
                     <t:template>
                         <Text
-                            text="{path:'Status', formatter:'.formatter.formatStatus'}"
+                            text="{path:'table>Status', formatter:'.formatter.formatStatus'}"
                             wrapping="false"
                         />
                     </t:template>

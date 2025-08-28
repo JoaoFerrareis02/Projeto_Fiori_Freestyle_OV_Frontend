@@ -4,21 +4,23 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/model/Sorter"
+    "sap/ui/model/Sorter",
+	"sap/m/MessageToast"
 ], (Controller,
-    JSONModel,
-    Filter,
-    FilterOperator,
-    Sorter) => {
+	JSONModel,
+	Filter,
+	FilterOperator,
+	Sorter,
+	MessageToast) => {
     "use strict";
 
     return Controller.extend("zov.controller.View1", {
         onInit: function () {
-            var oView = this.getView();
+            const oView = this.getView();
+            const oFModel = new JSONModel();
+            const oTModel = new JSONModel();
 
-            var oModel = new JSONModel();
-
-            oModel.setData({
+            oFModel.setData({
                 "OrdemId": "",
                 "DataCriacao": "",
                 "CriadoPor": "",
@@ -28,65 +30,84 @@ sap.ui.define([
                 "TotalOrdem": "",
                 "Status": "",
                 "OrdenacaoCampo": "OrdemId",
-                "OrdenacaoTipo": "ASC"
+                "OrdenacaoTipo": "ASC",
+                "Limite": 10,
+                "Offset": 0
             });
 
-            oView.setModel(oModel, "filter");
+            oView.setModel(oFModel,"filter");
+            oTModel.setData([]);
+            oView.setModel(oTModel,"table");
 
             this.onFilterSearch();
 
         },
 
         onFilterSearch: function () {
-            var oView = this.getView();
-            var oTable = oView.byId("table1");
-            var oModel = oView.getModel("filter");
-            var oData = oModel.getData();
-            var oFilter = null;
+            let oView = this.getView();
+            let oModel = this.getOwnerComponent().getModel();
+            let oFModel = oView.getModel("filter");
+            let oTModel = oView.getModel("table");
+            let oFData = oFModel.getData();
+            let oFilter = null;
+            let oSort = null;
+            let bDescending = false;
+            let aParams = [];
+            let that = this;
+            let aSorter = [];
+            let aFilters = [];
 
-            var aSorter = [];
-            var aFilter = [];
-
-            if (oData.OrdemId != "") {
+            if (oFData.OrdemId != "") {
                 oFilter = new Filter({
                     path: "OrdemId",
                     operator: FilterOperator.EQ,
-                    value1: oData.OrdemId
+                    value1: oFData.OrdemId
                 });
-                aFilter.push(oFilter);
+                aFilters.push(oFilter);
             }
 
-            if (oData.DataCriacao != "") {
+            if (oFData.DataCriacao != "") {
                 oFilter = new Filter({
                     path: "DataCriacao",
                     operator: FilterOperator.EQ,
-                    value1: oData.DataCriacao
+                    value1: oFData.DataCriacao
                 });
-                aFilter.push(oFilter);
+                aFilters.push(oFilter);
             }
 
-            if (oData.ClienteId != "") {
+            if (oFData.ClienteId != "") {
                 oFilter = new Filter({
                     path: "ClienteId",
                     operator: FilterOperator.EQ,
-                    value1: oData.ClienteId
+                    value1: oFData.ClienteId
                 });
-                aFilter.push(oFilter);
+                aFilters.push(oFilter);
             }
 
-            var bDescending = false;
-            if (oData.OrdenacaoTipo == "DESC") {
+            if (oFData.OrdenacaoTipo == "DESC") {
                 bDescending = true;
             }
 
-            var oSort = new Sorter(oData.OrdenacaoCampo, bDescending);
+            oSort = new Sorter(oFData.OrdenacaoCampo, bDescending);
             aSorter.push(oSort);
 
-            oTable.bindRows({
-                path: '/OVCabSet',
-                sorter: aSorter,
-                filters: aFilter
-            }); 
+            aParams.push(`$top=${oFData.Limite}`);
+            aParams.push(`$skip=${oFData.Offset}`);
+
+            this.getView().setBusy(true);
+            oModel.read("/OVCabSet", {
+                sorters: aSorter,
+                filters: aFilters,
+                urlParameters: aParams,
+                success: function(oData2, oResponse){
+                    that.getView().setBusy(false);
+                    oTModel.setData(oData2.results);
+                },
+                error: function(oError){
+                    that.getView().setBusy(false);
+                    MessageToast.show("Erro");
+                }
+            });
 
         },
 

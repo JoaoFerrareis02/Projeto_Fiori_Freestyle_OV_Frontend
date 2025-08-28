@@ -1,38 +1,25 @@
 [
-  {
-    "OrdemId": 10001,
-    "ItemId": 1,
-    "Material": "MAT-001",
-    "Descricao": "Teclado Mecânico",
-    "Quantidade": 2,
-    "PrecoUni": 150.25,
-    "PrecoTot": 300.50
-  },
-  {
-    "OrdemId": 10001,
-    "ItemId": 2,
-    "Material": "MAT-002",
-    "Descricao": "Monitor 27''",
-    "Quantidade": 1,
-    "PrecoUni": 1200.00,
-    "PrecoTot": 1200.00
-  },
-  {
-    "OrdemId": 10001,
-    "ItemId": 3,
-    "Material": "MAT-003",
-    "Descricao": "Mouse Gamer",
-    "Quantidade": 1,
-    "PrecoUni": 1700.00,
-    "PrecoTot": 1700.00
-  },
-  {
-    "OrdemId": 10002,
-    "ItemId": 1,
-    "Material": "MAT-010",
-    "Descricao": "Fone de Ouvido",
-    "Quantidade": 2,
-    "PrecoUni": 299.95,
-    "PrecoTot": 599.90
-  }
+  { "OrdemId": 1, "ItemId": 1, "Material": "MAT-001", "Descricao": "Notebook", "Quantidade": 1, "PrecoUni": 2000.00, "PrecoTot": 2000.00 },
+  { "OrdemId": 1, "ItemId": 2, "Material": "MAT-002", "Descricao": "Mouse", "Quantidade": 2, "PrecoUni": 225.00, "PrecoTot": 450.00 },
+
+  { "OrdemId": 2, "ItemId": 1, "Material": "MAT-010", "Descricao": "Teclado", "Quantidade": 2, "PrecoUni": 250.00, "PrecoTot": 500.00 },
+  { "OrdemId": 2, "ItemId": 2, "Material": "MAT-011", "Descricao": "Monitor 24''", "Quantidade": 1, "PrecoUni": 820.00, "PrecoTot": 820.00 },
+
+  { "OrdemId": 3, "ItemId": 1, "Material": "MAT-020", "Descricao": "Cabo HDMI", "Quantidade": 5, "PrecoUni": 100.00, "PrecoTot": 500.00 },
+
+  { "OrdemId": 4, "ItemId": 1, "Material": "MAT-030", "Descricao": "Headset", "Quantidade": 1, "PrecoUni": 250.00, "PrecoTot": 250.00 },
+  { "OrdemId": 4, "ItemId": 2, "Material": "MAT-031", "Descricao": "Mousepad", "Quantidade": 1, "PrecoUni": 460.00, "PrecoTot": 460.00 },
+
+  { "OrdemId": 5, "ItemId": 1, "Material": "MAT-040", "Descricao": "Servidor", "Quantidade": 1, "PrecoUni": 3300.00, "PrecoTot": 3300.00 },
+
+  { "OrdemId": 6, "ItemId": 1, "Material": "MAT-050", "Descricao": "Impressora", "Quantidade": 1, "PrecoUni": 1150.00, "PrecoTot": 1150.00 },
+  { "OrdemId": 6, "ItemId": 2, "Material": "MAT-051", "Descricao": "Scanner", "Quantidade": 1, "PrecoUni": 1000.00, "PrecoTot": 1000.00 },
+
+  { "OrdemId": 7, "ItemId": 1, "Material": "MAT-060", "Descricao": "Tablet", "Quantidade": 2, "PrecoUni": 490.00, "PrecoTot": 980.00 },
+
+  { "OrdemId": 8, "ItemId": 1, "Material": "MAT-070", "Descricao": "Smartphone", "Quantidade": 2, "PrecoUni": 770.00, "PrecoTot": 1540.00 },
+
+  { "OrdemId": 9, "ItemId": 1, "Material": "MAT-080", "Descricao": "Projetor", "Quantidade": 2, "PrecoUni": 2250.00, "PrecoTot": 4500.00 },
+
+  { "OrdemId": 10, "ItemId": 1, "Material": "MAT-090", "Descricao": "HD Externo", "Quantidade": 10, "PrecoUni": 110.00, "PrecoTot": 1100.00 }
 ]

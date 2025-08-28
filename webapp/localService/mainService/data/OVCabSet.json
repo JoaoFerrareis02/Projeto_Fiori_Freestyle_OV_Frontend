@@ -1,22 +1,102 @@
 [
   {
-    "OrdemId": 10001,
+    "OrdemId": 1,
     "DataCriacao": "/Date(1724659200000)/",
-    "CriadoPor": "UsuarioA",
-    "ClienteId": 501,
-    "TotalItens": 3200.50,
-    "TotalFrete": 150.75,
-    "TotalOrdem": 3351.25,
+    "CriadoPor": "User1",
+    "ClienteId": 100,
+    "TotalItens": "2450.00",
+    "TotalFrete": "50.00",
+    "TotalOrdem": "2500.00",
     "Status": "A"
   },
   {
-    "OrdemId": 10002,
+    "OrdemId": 2,
     "DataCriacao": "/Date(1724745600000)/",
-    "CriadoPor": "UsuarioB",
-    "ClienteId": 502,
-    "TotalItens": 599.90,
-    "TotalFrete": 0.00,
-    "TotalOrdem": 599.90,
+    "CriadoPor": "User2",
+    "ClienteId": 200,
+    "TotalItens": "1320.00",
+    "TotalFrete": "80.00",
+    "TotalOrdem": "1400.00",
+    "Status": "B"
+  },
+  {
+    "OrdemId": 3,
+    "DataCriacao": "/Date(1724832000000)/",
+    "CriadoPor": "User3",
+    "ClienteId": 300,
+    "TotalItens": "500.00",
+    "TotalFrete": "0.00",
+    "TotalOrdem": "500.00",
+    "Status": "A"
+  },
+  {
+    "OrdemId": 4,
+    "DataCriacao": "/Date(1724918400000)/",
+    "CriadoPor": "User1",
+    "ClienteId": 100,
+    "TotalItens": "710.00",
+    "TotalFrete": "40.00",
+    "TotalOrdem": "750.00",
+    "Status": "C"
+  },
+  {
+    "OrdemId": 5,
+    "DataCriacao": "/Date(1725004800000)/",
+    "CriadoPor": "User2",
+    "ClienteId": 200,
+    "TotalItens": "3300.00",
+    "TotalFrete": "200.00",
+    "TotalOrdem": "3500.00",
+    "Status": "A"
+  },
+  {
+    "OrdemId": 6,
+    "DataCriacao": "/Date(1725091200000)/",
+    "CriadoPor": "User3",
+    "ClienteId": 300,
+    "TotalItens": "2150.00",
+    "TotalFrete": "100.00",
+    "TotalOrdem": "2250.00",
+    "Status": "B"
+  },
+  {
+    "OrdemId": 7,
+    "DataCriacao": "/Date(1725177600000)/",
+    "CriadoPor": "User1",
+    "ClienteId": 100,
+    "TotalItens": "980.00",
+    "TotalFrete": "20.00",
+    "TotalOrdem": "1000.00",
+    "Status": "A"
+  },
+  {
+    "OrdemId": 8,
+    "DataCriacao": "/Date(1725264000000)/",
+    "CriadoPor": "User2",
+    "ClienteId": 200,
+    "TotalItens": "1540.00",
+    "TotalFrete": "60.00",
+    "TotalOrdem": "1600.00",
+    "Status": "C"
+  },
+  {
+    "OrdemId": 9,
+    "DataCriacao": "/Date(1725350400000)/",
+    "CriadoPor": "User3",
+    "ClienteId": 300,
+    "TotalItens": "4500.00",
+    "TotalFrete": "250.00",
+    "TotalOrdem": "4750.00",
+    "Status": "A"
+  },
+  {
+    "OrdemId": 10,
+    "DataCriacao": "/Date(1725436800000)/",
+    "CriadoPor": "User1",
+    "ClienteId": 100,
+    "TotalItens": "1100.00",
+    "TotalFrete": "0.00",
+    "TotalOrdem": "1100.00",
     "Status": "B"
   }
 ]

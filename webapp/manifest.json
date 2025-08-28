@@ -24,10 +24,6 @@
           "localUri": "localService/mainService/metadata.xml",
           "odataVersion": "2.0"
         }
-      },
-      "usuarios":{
-        "uri": "model/Usuarios.json",
-        "type": "JSON"
       }
     }
   },
@@ -67,10 +63,6 @@
           "bundleName": "zov.i18n.i18n"
         }
       },
-      "usuarios":{
-        "type": "sap.ui.model.json.JSONModel",
-        "dataSource": "usuarios"
-      },
       "": {
         "dataSource": "mainService",
         "preload": true,
@@ -103,30 +95,12 @@
           "target": [
             "TargetView1"
           ]
-        },
-        {
-          "name": "RouteCustomerNew",
-          "pattern": "customer/new",
-          "target": [
-            "TargetCustomerFormView"
-          ]
-        },
-        {
-          "name": "RouteCustomerEdit",
-          "pattern": "customer/{CustomerId}/edit",
-          "target": [
-            "TargetCustomerFormView"
-          ]
         }
       ],
       "targets": {
         "TargetView1": {
           "id": "View1",
           "name": "View1"
-        },
-        "TargetCustomerFormView":{
-          "id": "CustomerFormView",
-          "name": "CustomerFormView"
         }
       }
     },
