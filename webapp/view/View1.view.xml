@@ -121,6 +121,26 @@
                 </fb:FilterItem>
             </fb:filterItems>
         </fb:FilterBar>
+        <FlexBox
+            alignItems="Center"
+            justifyContent="End"
+        >
+            <Button
+                text="Fornecer"
+                class="sapUiTinyMarginEnd"
+                press="onAtualizarStatus('L')"
+            />
+            <Button
+                text="Faturar"
+                class="sapUiTinyMarginEnd"
+                press="onAtualizarStatus('F')"
+            />
+            <Button
+                text="Cancelar"
+                class="sapUiTinyMarginEnd"
+                press="onAtualizarStatus('C')"
+            />
+        </FlexBox>
         <t:Table
             id="table1"
             rows="{table>/}"
@@ -185,7 +205,6 @@
                         />
                     </t:template>
                 </t:Column>
-
                 <t:Column
                     width="100px"
                     sortProperty="CriadoPor"
@@ -200,7 +219,6 @@
                         />
                     </t:template>
                 </t:Column>
-
                 <t:Column
                     width="100px"
                     sortProperty="TotalItens"
@@ -215,7 +233,6 @@
                         />
                     </t:template>
                 </t:Column>
-
                 <t:Column
                     width="100px"
                     sortProperty="TotalFrete"
@@ -230,7 +247,6 @@
                         />
                     </t:template>
                 </t:Column>
-
                 <t:Column
                     width="100px"
                     sortProperty="TotalOrdem"
@@ -245,7 +261,6 @@
                         />
                     </t:template>
                 </t:Column>
-
                 <t:Column
                     width="100px"
                     sortProperty="Status"
@@ -255,7 +270,10 @@
                     <Label text="{i18n>Status}" />
                     <t:template>
                         <Text
-                            text="{path:'table>Status', formatter:'.formatter.formatStatus'}"
+                            text="{
+                                path: 'table>Status',
+                                formatter: '.formatter.formatStatus'
+                            }"
                             wrapping="false"
                         />
                     </t:template>

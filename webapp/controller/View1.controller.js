@@ -113,7 +113,46 @@ sap.ui.define([
 
         onFilterReset: function (oEvent) {
 
-        }
+        },
+
+		onAtualizarStatus: function(sStatus) {
+			const oTable = this.getView().byId("table1");
+            const oModel = this.getOwnerComponent().getModel();
+            const aIndex = oTable.getSelectedIndices();
+            const that = this;
+            
+            if (aIndex.length == 0) {
+                MessageToast.show("Selecione uma linha");
+                return;
+            }
+
+            if (aIndex.length != 1) {
+                MessageToast.show("Selecione apenas uma linha");
+                return;
+            }
+
+            let oItem = oTable.getContextByIndex(aIndex[0]);
+            let iOrdemId = oItem.getProperty("OrdemId");
+
+            this.getView().setBusy(true);
+            oModel.callFunction("/ZJV_FI_ATUALIZA_STATUS", {
+                method: 'GET',
+                urlParameters: {
+                    ID_STATUS: sStatus,
+                    ID_ORDEMID: iOrdemId
+                },
+                success: (oData, oResponse) => {
+                    that.getView().setBusy(false);
+                    MessageToast.show("Status atualizado com sucesso");
+                    that.onFilterSearch();
+                },
+                error: (oError) => {
+                    that.getView().setBusy(false);
+                    MessageToast.show("Erro ao atualizar status");
+                }
+            });
+
+		}
 
     });
 });
