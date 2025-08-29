@@ -1,0 +1,16 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+    <Dialog
+        id="DialogInfo"
+        title="Informação"
+    >
+        <beginButton>
+            <Button text="Fechar" press="onFecharDialogInfo"/>
+        </beginButton>
+        <content>
+            <Text text="Teste" class="sapUiSmallMargin"/>
+        </content>
+    </Dialog>
+</c:FragmentDefinition>

@@ -3,18 +3,13 @@
     displayBlock="true"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-    xmlns:c="sap.ui.core"
+    xmlns:core="sap.ui.core"
 >
     <Page
         id="page"
         title="{i18n>title}"
     >
-        <c:Fragment fragmentName="zov.view.Header" type="XML"/>
-        <VBox
-            class="sapUiTinyMargin"
-        >
-            <Text text="Conteúdo"/>
-        </VBox>
-        <mvc:XMLView viewName="zov.view.Footer"/>
+        <Button text="Abrir dialog" press="onAbrirDialogInfo"/>
+        <core:Fragment fragmentName="zov.view.DialogInfo" type="XML"/>
     </Page>
 </mvc:View>

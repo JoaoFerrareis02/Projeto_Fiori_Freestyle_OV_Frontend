@@ -1,9 +1,0 @@
-<mvc:View
-	controllerName="zov.controller.Footer"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m"
-	displayBlock="true"
->
-	<Text text="View: Rodapé" class="sapUiTinyMargin"/>
-    <Button text="Footer" press="onFooter"/>
-</mvc:View>
