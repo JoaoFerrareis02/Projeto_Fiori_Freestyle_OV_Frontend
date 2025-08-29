@@ -1,0 +1,7 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+    <Text text="Fragmento: Cabeçalho" class="sapUiTinyMargin"/>
+    <Button text="Header" press="onHeader"/>
+</c:FragmentDefinition>
