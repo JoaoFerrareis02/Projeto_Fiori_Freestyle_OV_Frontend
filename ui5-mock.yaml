@@ -16,7 +16,7 @@ server:
             - /test-resources
           url: https://ui5.sap.com
         backend:
-          - path: /sap
+          - path: /sap/opu
             url: http://hanadb02.megawork.local:50700
             client: '700'
     - name: fiori-tools-appreload
