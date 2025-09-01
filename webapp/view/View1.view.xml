@@ -8,5 +8,9 @@
             text="Formulário de Cadastro Ordem"
             press="onCadastroOrdem"
         />
+        <Button
+            text="Modificar Ordem 1"
+            press="onModificarOrdem"
+        />
     </Page>
 </mvc:View>

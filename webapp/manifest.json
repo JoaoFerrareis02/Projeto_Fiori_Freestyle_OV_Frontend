@@ -102,6 +102,13 @@
           "target": [
             "TargetFormularioCadastro"
           ]
+        },
+        {
+          "name": "RouteFormularioAtualizacao",
+          "pattern": "ordem/{OrdemId}/editar",
+          "target": [
+            "TargetFormularioCadastro"
+          ]
         }
       ],
       "targets": {
@@ -110,8 +117,8 @@
           "name": "View1"
         },
         "TargetFormularioCadastro": {
-          "id": "FormularioCadastro",
-          "name": "FormularioCadastro"
+          "id": "Formulario",
+          "name": "Formulario"
         }
       }
     },

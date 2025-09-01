@@ -11,7 +11,12 @@ sap.ui.define([
 
         onCadastroOrdem: function (oEvent) {
             const oRoute = UIComponent.getRouterFor(this);
-            oRoute.navTo("RouteFormularioCadastro")
-        }
+            oRoute.navTo("RouteFormularioCadastro");
+        },
+
+		onModificarOrdem: function(oEvent) {
+			const oRoute = UIComponent.getRouterFor(this);
+            oRoute.navTo("RouteFormularioAtualizacao", {OrdemId: '1'});
+		}
     });
 });

@@ -4,25 +4,27 @@ sap.ui.define([
 	"../model/formatter",
 	"sap/ui/core/routing/History",
 	"sap/ui/core/UIComponent",
-	"sap/ui/model/BindingMode"
+	"sap/ui/model/BindingMode",
+	"sap/ui/model/json/JSONModel"
 ],
-	/**
-	 * @param {typeof sap.ui.core.mvc.Controller} Controller
-	 */
 	function (Controller,
 		MessageToast,
 		formatter,
 		History,
 		UIComponent,
-		BindingMode) {
+		BindingMode,
+		JSONModel) {
 		"use strict";
 
-		return Controller.extend("zovfrontend.controller.FormularioCadastro", {
+		return Controller.extend("zovfrontend.controller.Formulario", {
 			formatter: formatter,
 
+			_formMode: "I",
+
 			onInit: function () {
-				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				var oRouter = UIComponent.getRouterFor(this);
 				oRouter.getRoute("RouteFormularioCadastro").attachMatched(this._onRouteMatchedNew, this);
+				oRouter.getRoute("RouteFormularioAtualizacao").attachMatched(this._onRouteMatcheEdit, this);
 			},
 
 			liveChangeItemQuantity: function (oEvent) {
@@ -234,36 +236,57 @@ sap.ui.define([
 					return;
 				}
 
-				oView.setBusy(true);
-				oModel1.create("/OVCabSet", oOrdem, {
-					success: function (oData, oResponse) {
-						// ajustando itens que voltam dentro do campo results
-						oData.toOVItem = oData.toOVItem.results;
+				if (this._formMode == "I") {
+					oView.setBusy(true);
+					oModel1.create("/OVCabSet", oOrdem, {
+						success: function (oData, oResponse) {
+							// ajustando itens que voltam dentro do campo results
+							oData.toOVItem = oData.toOVItem.results;
 
-						oModel2.setData(oData);
-						if (oResponse.statusCode == 201) {
-							// bloqueando campos
-							oView.byId("OVCab.DataCriacao").setEditable(false);
-							oView.byId("OVCab.CriadoPor").setEditable(false);
+							oModel2.setData(oData);
+							if (oResponse.statusCode == 201) {
+								// bloqueando campos
+								oView.byId("OVCab.DataCriacao").setEditable(false);
+								oView.byId("OVCab.CriadoPor").setEditable(false);
 
-							MessageToast.show("Ordem cadastrada com sucesso");
-						} else {
-							MessageToast.show("Erro ao salvar");
+								MessageToast.show("Ordem cadastrada com sucesso");
+							} else {
+								MessageToast.show("Erro ao salvar");
+							}
+
+							oView.setBusy(false);
+						},
+						error: function (oResponse) {
+							var oError = JSON.parse(oResponse.responseText);
+							MessageToast.show(oError.error.message.value);
+							oView.setBusy(false);
 						}
-
-						oView.setBusy(false);
-					},
-					error: function (oResponse) {
-						var oError = JSON.parse(oResponse.responseText);
-						MessageToast.show(oError.error.message.value);
-						oView.setBusy(false);
 					}
+					);
+				} else {
+					oView.setBusy(true);
+					oModel1.create(`/OVCabSet`, oOrdem, {
+						success: function (oData, oResponse) {
+							if (oResponse.statusCode == 204 || oResponse.statusCode == 201) {
+								MessageToast.show("Ordem atualizada com sucesso");
+							}
+							oView.setBusy(false);
+						},
+						error: function (oResponse) {
+							var oError = JSON.parse(oResponse.responseText);
+							MessageToast.show(oError.error.message.value);
+							oView.setBusy(false);
+						}
+					}
+					);
 				}
-				);
 
 			},
 
 			_onRouteMatchedNew: function (oEvent) {
+
+				this._formMode = "I";
+
 				var oView = this.getView();
 
 				var oModel = new sap.ui.model.json.JSONModel();
@@ -276,6 +299,54 @@ sap.ui.define([
 				oView.byId("OVCab.ClienteId").setValueState("None");
 
 				this._recalcOrder();
+			},
+
+			_onRouteMatcheEdit: function (oEvent) {
+				var that = this;
+				var oView = this.getView();
+				var oArgs = oEvent.getParameter("arguments");
+				var sOrdemId = oArgs.OrdemId;
+				var oModel = this.getOwnerComponent().getModel();
+				var oModel1 = null;
+
+				this._formMode = "U";
+
+				// limpando dados
+				oModel1 = new sap.ui.model.json.JSONModel(this._createEmptyOrderObject());
+				oModel1.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
+
+				oView.byId("OVCab.DataCriacao").setEditable(false);
+				oView.byId("OVCab.CriadoPor").setEditable(false);
+				oView.byId("OVCab.ClienteId").setValueState("None");
+
+				oView.setBusy(true);
+
+				// cabeçalho
+				oModel.read("/OVCabSet(" + sOrdemId + ")", {
+					success: function (oOrdem, oResponse) {
+						// items
+						oModel.read("/OVCabSet(" + sOrdemId + ")/toOVItem", {
+							success: function (oData, oResponse) {
+								oOrdem.toOVItem = oData.results;
+								oModel1.setData(oOrdem);
+								oView.setModel(oModel1);
+
+								that._recalcOrder();
+								oView.setBusy(false);
+							},
+							error: function (oError) {
+								var oError = JSON.parse(oResponse.responseText);
+								MessageToast.show(oError.error.message.value);
+								oView.setBusy(false);
+							}
+						});
+					},
+					error: function (oResponse) {
+						var oError = JSON.parse(oResponse.responseText);
+						MessageToast.show(oError.error.message.value);
+						oView.setBusy(false);
+					}
+				});
 			},
 
 			_parseInt: function (sValue) {
