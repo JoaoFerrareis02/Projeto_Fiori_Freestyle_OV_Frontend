@@ -1,0 +1,29 @@
+[
+  {
+    "OrdemId": 1,
+    "ItemId": 1,
+    "Material": "001",
+    "Descricao": "Material de teste 1",
+    "Quantidade": 2,
+    "PrecoUni": 10.00,
+    "PrecoTot": 20.00
+  },
+  {
+    "OrdemId": 1,
+    "ItemId": 2,
+    "Material": "002",
+    "Descricao": "Material de teste 2",
+    "Quantidade": 3,
+    "PrecoUni": 15.00,
+    "PrecoTot": 45.00
+  },
+  {
+    "OrdemId": 2,
+    "ItemId": 1,
+    "Material": "003",
+    "Descricao": "Material de teste 3",
+    "Quantidade": 1,
+    "PrecoUni": 30.00,
+    "PrecoTot": 30.00
+  }
+]

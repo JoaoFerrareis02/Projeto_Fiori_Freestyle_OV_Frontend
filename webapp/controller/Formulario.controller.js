@@ -240,6 +240,7 @@ sap.ui.define([
 					oView.setBusy(true);
 					oModel1.create("/OVCabSet", oOrdem, {
 						success: function (oData, oResponse) {
+							oView.setBusy(false);
 							// ajustando itens que voltam dentro do campo results
 							oData.toOVItem = oData.toOVItem.results;
 
@@ -253,13 +254,12 @@ sap.ui.define([
 							} else {
 								MessageToast.show("Erro ao salvar");
 							}
-
-							oView.setBusy(false);
+							
 						},
 						error: function (oResponse) {
+							oView.setBusy(false);
 							var oError = JSON.parse(oResponse.responseText);
 							MessageToast.show(oError.error.message.value);
-							oView.setBusy(false);
 						}
 					}
 					);
@@ -267,15 +267,15 @@ sap.ui.define([
 					oView.setBusy(true);
 					oModel1.create(`/OVCabSet`, oOrdem, {
 						success: function (oData, oResponse) {
+							oView.setBusy(false);
 							if (oResponse.statusCode == 204 || oResponse.statusCode == 201) {
 								MessageToast.show("Ordem atualizada com sucesso");
 							}
-							oView.setBusy(false);
 						},
 						error: function (oResponse) {
+							oView.setBusy(false);
 							var oError = JSON.parse(oResponse.responseText);
 							MessageToast.show(oError.error.message.value);
-							oView.setBusy(false);
 						}
 					}
 					);
@@ -313,7 +313,7 @@ sap.ui.define([
 
 				// limpando dados
 				oModel1 = new sap.ui.model.json.JSONModel(this._createEmptyOrderObject());
-				oModel1.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
+				oModel1.setDefaultBindingMode(BindingMode.TwoWay);
 
 				oView.byId("OVCab.DataCriacao").setEditable(false);
 				oView.byId("OVCab.CriadoPor").setEditable(false);
@@ -327,24 +327,23 @@ sap.ui.define([
 						// items
 						oModel.read("/OVCabSet(" + sOrdemId + ")/toOVItem", {
 							success: function (oData, oResponse) {
+								oView.setBusy(false);
 								oOrdem.toOVItem = oData.results;
 								oModel1.setData(oOrdem);
 								oView.setModel(oModel1);
-
 								that._recalcOrder();
-								oView.setBusy(false);
 							},
-							error: function (oError) {
+							error: function (oResponse) {
+								oView.setBusy(false);
 								var oError = JSON.parse(oResponse.responseText);
 								MessageToast.show(oError.error.message.value);
-								oView.setBusy(false);
 							}
 						});
 					},
 					error: function (oResponse) {
+						oView.setBusy(false);
 						var oError = JSON.parse(oResponse.responseText);
 						MessageToast.show(oError.error.message.value);
-						oView.setBusy(false);
 					}
 				});
 			},
@@ -399,7 +398,7 @@ sap.ui.define([
 				if (sPreviousHash !== undefined) {
 					window.history.go(-1);
 				} else {
-					UIComponent.getRouterFor(this).navTo("RouteView1");
+					UIComponent.getRouterFor(this).navTo("RouteOrdemLista");
 				}
 			}
 		});

@@ -90,10 +90,10 @@
       },
       "routes": [
         {
-          "name": "RouteView1",
+          "name": "RouteOrdemLista",
           "pattern": ":?query:",
           "target": [
-            "TargetView1"
+            "TargetOrdemLista"
           ]
         },
         {
@@ -112,9 +112,9 @@
         }
       ],
       "targets": {
-        "TargetView1": {
-          "id": "View1",
-          "name": "View1"
+        "TargetOrdemLista": {
+          "id": "OrdemLista",
+          "name": "OrdemLista"
         },
         "TargetFormularioCadastro": {
           "id": "Formulario",
