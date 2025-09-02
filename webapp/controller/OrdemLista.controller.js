@@ -2,17 +2,19 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "zovfrontend/model/formatter",
     "sap/ui/model/json/JSONModel",
-	"sap/ui/core/UIComponent",
-	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator",
-	"sap/ui/model/Sorter"
+    "sap/ui/core/UIComponent",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
+    "sap/ui/model/Sorter",
+	"sap/m/MessageToast"
 ], (Controller,
 	formatter,
 	JSONModel,
 	UIComponent,
 	Filter,
 	FilterOperator,
-	Sorter) => {
+	Sorter,
+	MessageToast) => {
     "use strict";
 
     return Controller.extend("zovfrontend.controller.OrdemLista", {
@@ -125,12 +127,48 @@ sap.ui.define([
             oRouter.navTo("RouteFormularioAtualizacao", { OrdemId: sOrdemId });
         },
 
+        onDelete: function (oEvent) {
+            var oSource = oEvent.getSource();
+            var sOrdemId = oSource.data("OrdemId");
+            var that = this;
+
+            this._onDeleteOrder(sOrdemId, function (sStatus) {
+                if (sStatus == "S") {
+                    that.onFilterSearch();
+                }
+            });
+        },
+
+        _onDeleteOrder: function (iOrdemId, callback) {
+            var oModel1 = this.getOwnerComponent().getModel();
+            var oView = this.getView();
+
+            oView.setBusy(true);
+            oModel1.remove(`/OVCabSet(${iOrdemId})`, {
+                success: function (oData, oResponse) {
+                    if (oResponse.statusCode == 204) {
+                        MessageToast.show("Deletado com sucesso");
+                        callback("S");
+                    } else {
+                        MessageToast.show("Erro em deletar");
+                        callback("E");
+                    }
+                    oView.setBusy(false);
+                },
+                error: function (oError) {
+                    MessageToast.show(oError.responseText);
+                    callback("E");
+                    oView.setBusy(false);
+                }
+            });
+        },
+
         _onRouteMatchedList: function (oEvent) {
             this.onFilterSearch();
         },
 
-		onFilterReset: function(oEvent) {
-			
-		}
+        onFilterReset: function (oEvent) {
+
+        }
     });
 });

@@ -15,7 +15,7 @@ sap.ui.define([
         },
 
         formatStatus: function (sValue) {
-            if (sValue == null) {
+            if (sValue == "") {
                 return "Desconhecido";
             }
             const oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();

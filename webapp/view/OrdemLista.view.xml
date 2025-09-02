@@ -306,6 +306,11 @@
                                     icon="sap-icon://edit"
                                     press="onEdit"
                                 />
+                                <Button
+                                    app:OrdemId="{table>OrdemId}"
+                                    icon="sap-icon://delete"
+                                    press="onDelete"
+                                />
                             </HBox>
                         </t:template>
                     </t:Column>

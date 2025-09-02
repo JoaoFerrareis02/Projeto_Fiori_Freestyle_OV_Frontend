@@ -249,12 +249,13 @@ sap.ui.define([
 								// bloqueando campos
 								oView.byId("OVCab.DataCriacao").setEditable(false);
 								oView.byId("OVCab.CriadoPor").setEditable(false);
+								oView.byId("bt-delete").setVisible(true);
 
 								MessageToast.show("Ordem cadastrada com sucesso");
 							} else {
 								MessageToast.show("Erro ao salvar");
 							}
-							
+
 						},
 						error: function (oResponse) {
 							oView.setBusy(false);
@@ -283,6 +284,50 @@ sap.ui.define([
 
 			},
 
+			onDelete: function (oEvent) {
+				var oOrdem = this._getOrderOData();
+				var that = this;
+
+				if (oOrdem.OrdemId == 0) {
+					MessageToast.show("Só é possível deletar uma ordem que existe");
+					return;
+				}
+
+				this._onDeleteOrder(oOrdem.OrdemId, function (sStatus) {
+					if (sStatus == "S") {
+						var oModel = new JSONModel();
+						oModel.setDefaultBindingMode(BindingMode.TwoWay);
+						oModel.setData(that._createEmptyOrderObject());
+						that.getView().setModel(oModel);
+						UIComponent.getRouterFor(that).navTo("RouteOrdemLista");
+					}
+				});
+			},
+
+			_onDeleteOrder: function (iOrdemId, callback) {
+				var oModel1 = this.getOwnerComponent().getModel();
+				var oView = this.getView();
+
+				oView.setBusy(true);
+				oModel1.remove(`/OVCabSet(${iOrdemId})`, {
+					success: function (oData, oResponse) {
+						oView.setBusy(false);
+						if (oResponse.statusCode == 204) {
+							MessageToast.show("Deletado com sucesso");
+							callback("S");
+						} else {
+							MessageToast.show("Erro em deletar");
+							callback("E");
+						}
+					},
+					error: function (oError) {
+						oView.setBusy(false);
+						MessageToast.show(oError.responseText);
+						callback("E");
+					}
+				});
+			},
+
 			_onRouteMatchedNew: function (oEvent) {
 
 				this._formMode = "I";
@@ -297,6 +342,7 @@ sap.ui.define([
 				oView.byId("OVCab.DataCriacao").setEditable(true);
 				oView.byId("OVCab.CriadoPor").setEditable(true);
 				oView.byId("OVCab.ClienteId").setValueState("None");
+				oView.byId("bt-delete").setVisible(false);
 
 				this._recalcOrder();
 			},
@@ -318,6 +364,7 @@ sap.ui.define([
 				oView.byId("OVCab.DataCriacao").setEditable(false);
 				oView.byId("OVCab.CriadoPor").setEditable(false);
 				oView.byId("OVCab.ClienteId").setValueState("None");
+				oView.byId("bt-delete").setVisible(true);
 
 				oView.setBusy(true);
 
