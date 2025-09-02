@@ -21,6 +21,9 @@ sap.ui.define([
     return Controller.extend("zovfrontend.controller.OrdemLista", {
 
         formatter: formatter,
+        oDialogMessageList: null,
+        aUpdateStatusQueue: [],
+        aUpdateStatusMessages: [],
 
         onInit: function () {
             var oView = this.getView();
@@ -146,6 +149,106 @@ sap.ui.define([
 
         onFilterReset: function (oEvent) {
 
-        }
+        },
+
+        onAtualizarStatus: function (sStatus) {
+            var that = this;
+            var oView = this.getView();
+            var oTable = oView.byId("table1");
+            var aData = oView.getModel("table").getData();
+
+            var aIndex = oTable.getSelectedIndices();
+            if (aIndex.length == 0) {
+                MessageToast.show("Marque ao menos 1 índice");
+                return;
+            }
+
+            this.aUpdateStatusQueue = [];
+            this.aUpdateStatusMessages = [];
+
+            for (var i in aIndex) {
+                try {
+                    var iIndex = aIndex[i];
+                    var sOrdemId = aData[iIndex].OrdemId;
+                    this.aUpdateStatusQueue.push({
+                        OrdemId: sOrdemId,
+                        Status: sStatus
+                    });
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+
+            this.runUpdateStatusQueue();
+        },
+
+        runUpdateStatusQueue: function () {
+
+            var that = this;
+            var oQueue = this.aUpdateStatusQueue.pop();
+
+            if (oQueue == undefined) {
+                this.getView().setBusy(false);
+                this.onOpenMessageListDialog();
+                this.onFilterSearch();
+                return;
+            }
+
+            var oModel = this.getOwnerComponent().getModel();
+
+            this.getView().setBusy(true);
+            oModel.callFunction("/ZJV_FI_ATUALIZA_STATUS", {
+                method: 'GET',
+                urlParameters: {
+                    ID_ORDEMID: oQueue.OrdemId,
+                    ID_STATUS: oQueue.Status
+                },
+                success: function (oData, oResponse) {
+                    for (var i in oData.results) {
+                        that.aUpdateStatusMessages.push(oData.results[i]);
+                    }
+                    that.runUpdateStatusQueue();
+                },
+                error: function (oError) {
+                    try {
+                        var oMessage = oError.responseText;
+                        that.aUpdateStatusMessages.push({
+                            "Tipo": "E",
+                            "Mensagem": "Erro ao atualizar ordem " + oQueue.OrdemId + ": " + oMessage
+                        });
+                    } catch (error) {
+                        that.aUpdateStatusMessages.push({
+                            "Tipo": "E",
+                            "Mensagem": "Erro ao atualizar ordem " + oQueue.OrdemId
+                        });
+                    }
+                    that.runUpdateStatusQueue();
+                }
+            });
+        },
+
+         onOpenMessageListDialog: function(){
+                var that  = this;
+                var sName = "zovfrontend.view.MessageList";
+
+                var oModel = new JSONModel(this.aUpdateStatusMessages);
+                this.getView().setModel(oModel,"messageList");
+                
+                if(!this.oDialogMessageList){
+                    this.loadFragment({
+                        name: sName
+                    }).then(function(oDialog2) {
+                        that.oDialogMessageList = oDialog2;
+                        that.oDialogMessageList.open();
+                    }.bind(this));
+                }else{
+                    this.oDialogMessageList.open();
+                }
+            },
+
+            onCloseMessageListDialog: function(){
+                this.byId("MessageListDialog").close();
+            }
+
     });
 });
