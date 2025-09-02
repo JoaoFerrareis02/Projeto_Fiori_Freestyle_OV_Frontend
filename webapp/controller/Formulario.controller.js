@@ -1,19 +1,18 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller",
+	"zovfrontend/controller/BaseController",
+	"zovfrontend/model/formatter",
 	"sap/m/MessageToast",
-	"../model/formatter",
-	"sap/ui/core/routing/History",
-	"sap/ui/core/UIComponent",
 	"sap/ui/model/BindingMode",
-	"sap/ui/model/json/JSONModel"
+	"sap/ui/model/json/JSONModel",
+	"sap/ui/core/UIComponent"
 ],
-	function (Controller,
-		MessageToast,
+	function (
+		Controller,
 		formatter,
-		History,
-		UIComponent,
+		MessageToast,
 		BindingMode,
-		JSONModel) {
+		JSONModel,
+		UIComponent) {
 		"use strict";
 
 		return Controller.extend("zovfrontend.controller.Formulario", {
@@ -153,14 +152,14 @@ sap.ui.define([
 				var oOrdem = oModel.getData();
 
 				// cabeçalho
-				oOrdem.OrdemId = this._parseInt(oOrdem.OrdemId);
-				oOrdem.TotalFrete = this._parsePrice(oOrdem.TotalFrete);
+				oOrdem.OrdemId = this.parseInt(oOrdem.OrdemId);
+				oOrdem.TotalFrete = this.parsePrice(oOrdem.TotalFrete);
 
 				// itens
 				oOrdem.TotalItens = 0;
 				for (var i in oOrdem.toOVItem) {
-					oOrdem.toOVItem[i].Quantidade = this._parseInt(oOrdem.toOVItem[i].Quantidade);
-					oOrdem.toOVItem[i].PrecoUni = this._parsePrice(oOrdem.toOVItem[i].PrecoUni);
+					oOrdem.toOVItem[i].Quantidade = this.parseInt(oOrdem.toOVItem[i].Quantidade);
+					oOrdem.toOVItem[i].PrecoUni = this.parsePrice(oOrdem.toOVItem[i].PrecoUni);
 					oOrdem.toOVItem[i].PrecoTot = oOrdem.toOVItem[i].Quantidade * oOrdem.toOVItem[i].PrecoUni;
 
 					oOrdem.TotalItens = oOrdem.TotalItens + oOrdem.toOVItem[i].PrecoTot;
@@ -177,7 +176,7 @@ sap.ui.define([
 				if (oOrdem.OrdemId == "") {
 					oOrdem.OrdemId = 0;
 				}
-				oOrdem.ClienteId = this._parseInt(oOrdem.ClienteId);
+				oOrdem.ClienteId = this.parseInt(oOrdem.ClienteId);
 
 				oOrdem.TotalItens = oOrdem.TotalItens.toFixed(2);
 				oOrdem.TotalFrete = oOrdem.TotalFrete.toFixed(2);
@@ -293,37 +292,13 @@ sap.ui.define([
 					return;
 				}
 
-				this._onDeleteOrder(oOrdem.OrdemId, function (sStatus) {
+				this.onDeleteOrder(oOrdem.OrdemId, function (sStatus) {
 					if (sStatus == "S") {
 						var oModel = new JSONModel();
 						oModel.setDefaultBindingMode(BindingMode.TwoWay);
 						oModel.setData(that._createEmptyOrderObject());
 						that.getView().setModel(oModel);
 						UIComponent.getRouterFor(that).navTo("RouteOrdemLista");
-					}
-				});
-			},
-
-			_onDeleteOrder: function (iOrdemId, callback) {
-				var oModel1 = this.getOwnerComponent().getModel();
-				var oView = this.getView();
-
-				oView.setBusy(true);
-				oModel1.remove(`/OVCabSet(${iOrdemId})`, {
-					success: function (oData, oResponse) {
-						oView.setBusy(false);
-						if (oResponse.statusCode == 204) {
-							MessageToast.show("Deletado com sucesso");
-							callback("S");
-						} else {
-							MessageToast.show("Erro em deletar");
-							callback("E");
-						}
-					},
-					error: function (oError) {
-						oView.setBusy(false);
-						MessageToast.show(oError.responseText);
-						callback("E");
 					}
 				});
 			},
@@ -393,60 +368,6 @@ sap.ui.define([
 						MessageToast.show(oError.error.message.value);
 					}
 				});
-			},
-
-			_parseInt: function (sValue) {
-				if (sValue == "" || sValue == null || sValue == undefined) {
-					return 0;
-				}
-
-				sValue = parseInt(sValue);
-				if (sValue == null || isNaN(sValue)) {
-					sValue = 0;
-				}
-				return sValue;
-			},
-
-			_parsePrice: function (sValue) {
-				if (sValue == "" || sValue == null || sValue == undefined) {
-					return 0.00;
-				}
-
-				if (typeof (sValue) == "number") {
-					return sValue;
-				}
-
-				sValue = sValue.toString();
-
-				if (sValue.indexOf(",") === -1) {
-					return parseFloat(sValue);
-				}
-
-				sValue = sValue.toString().replaceAll(/[^0-9\.\,]/g, '');
-				sValue = sValue.replace(/^0+/, '');
-				sValue = sValue.replace(".", "");
-				sValue = sValue.replace(",", ".");
-				return parseFloat(sValue);
-			},
-
-			formatPrice: function (fPrice) {
-				if (typeof (fPrice) != "number") {
-					return "0,00";
-				}
-				var sPrice = fPrice.toFixed(2);
-				sPrice = sPrice.replace(".", ",");
-				return sPrice;
-			},
-
-			onPageBack: function () {
-				var oHistory = History.getInstance();
-				var sPreviousHash = oHistory.getPreviousHash();
-
-				if (sPreviousHash !== undefined) {
-					window.history.go(-1);
-				} else {
-					UIComponent.getRouterFor(this).navTo("RouteOrdemLista");
-				}
 			}
 		});
 	});
