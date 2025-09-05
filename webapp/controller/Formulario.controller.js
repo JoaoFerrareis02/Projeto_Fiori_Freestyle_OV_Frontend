@@ -18,12 +18,12 @@ sap.ui.define([
 		return Controller.extend("zovfrontend.controller.Formulario", {
 			formatter: formatter,
 
-			_formMode: "I",
+			formMode: "I",
 
 			onInit: function () {
 				var oRouter = UIComponent.getRouterFor(this);
-				oRouter.getRoute("RouteFormularioCadastro").attachMatched(this._onRouteMatchedNew, this);
-				oRouter.getRoute("RouteFormularioAtualizacao").attachMatched(this._onRouteMatcheEdit, this);
+				oRouter.getRoute("RouteFormularioCadastro").attachMatched(this.onRouteMatchedNew, this);
+				oRouter.getRoute("RouteFormularioAtualizacao").attachMatched(this.onRouteMatcheEdit, this);
 			},
 
 			liveChangeItemQuantity: function (oEvent) {
@@ -32,7 +32,7 @@ sap.ui.define([
 				val = val.replace(/[^\d]/g, '');
 				_oInput.setValue(val);
 
-				this._recalcOrder();
+				this.recalcOrder();
 			},
 
 			liveChangePrice: function (oEvent) {
@@ -87,13 +87,13 @@ sap.ui.define([
 					}
 				}
 
-				this._recalcOrder();
+				this.recalcOrder();
 			},
 
-			_recalcOrder: function () {
+			recalcOrder: function () {
 				var oView = this.getView();
 				var oModel = oView.getModel();
-				var oOrdem = this._getOrderObject();
+				var oOrdem = this.getOrderObject();
 				oModel.setData(oOrdem);
 				oView.setModel(oModel);
 			},
@@ -112,7 +112,7 @@ sap.ui.define([
 				}
 
 				// clonando objeto
-				var item = this._createEmptyItem();
+				var item = this.createEmptyItem();
 
 				item.ItemId = lastItemId + 1;
 
@@ -143,10 +143,10 @@ sap.ui.define([
 				oModel.setData(oOrdem);
 				oView.setModel(oModel);
 
-				this._recalcOrder();
+				this.recalcOrder();
 			},
 
-			_getOrderObject: function () {
+			getOrderObject: function () {
 				var oView = this.getView();
 				var oModel = oView.getModel();
 				var oOrdem = oModel.getData();
@@ -169,8 +169,8 @@ sap.ui.define([
 				return oOrdem;
 			},
 
-			_getOrderOData: function () {
-				var oOrdem = this._getOrderObject();
+			getOrderOData: function () {
+				var oOrdem = this.getOrderObject();
 
 				// cabeçalho
 				if (oOrdem.OrdemId == "") {
@@ -191,7 +191,7 @@ sap.ui.define([
 				return oOrdem;
 			},
 
-			_createEmptyOrderObject: function () {
+			createEmptyOrderObject: function () {
 				var oOrdem = {
 					OrdemId: "",
 					DataCriacao: null,
@@ -206,7 +206,7 @@ sap.ui.define([
 				return oOrdem;
 			},
 
-			_createEmptyItem: function () {
+			createEmptyItem: function () {
 				var oItem = {
 					ItemId: 0,
 					Material: "",
@@ -223,7 +223,7 @@ sap.ui.define([
 				var oView = this.getView();
 				var oModel1 = this.getOwnerComponent().getModel();
 				var oModel2 = oView.getModel();
-				var oOrdem = this._getOrderOData();
+				var oOrdem = this.getOrderOData();
 
 				// validações
 				var oClienteId = this.getView().byId("OVCab.ClienteId");
@@ -235,7 +235,7 @@ sap.ui.define([
 					return;
 				}
 
-				if (this._formMode == "I") {
+				if (this.formMode == "I") {
 					oView.setBusy(true);
 					oModel1.create("/OVCabSet", oOrdem, {
 						success: function (oData, oResponse) {
@@ -284,7 +284,7 @@ sap.ui.define([
 			},
 
 			onDelete: function (oEvent) {
-				var oOrdem = this._getOrderOData();
+				var oOrdem = this.getOrderOData();
 				var that = this;
 
 				if (oOrdem.OrdemId == 0) {
@@ -296,22 +296,22 @@ sap.ui.define([
 					if (sStatus == "S") {
 						var oModel = new JSONModel();
 						oModel.setDefaultBindingMode(BindingMode.TwoWay);
-						oModel.setData(that._createEmptyOrderObject());
+						oModel.setData(that.createEmptyOrderObject());
 						that.getView().setModel(oModel);
 						UIComponent.getRouterFor(that).navTo("RouteOrdemLista");
 					}
 				});
 			},
 
-			_onRouteMatchedNew: function (oEvent) {
+			onRouteMatchedNew: function (oEvent) {
 
-				this._formMode = "I";
+				this.formMode = "I";
 
 				var oView = this.getView();
 
 				var oModel = new sap.ui.model.json.JSONModel();
 				oModel.setDefaultBindingMode(BindingMode.TwoWay);
-				oModel.setData(this._createEmptyOrderObject());
+				oModel.setData(this.createEmptyOrderObject());
 				oView.setModel(oModel);
 
 				oView.byId("OVCab.DataCriacao").setEditable(true);
@@ -319,10 +319,10 @@ sap.ui.define([
 				oView.byId("OVCab.ClienteId").setValueState("None");
 				oView.byId("bt-delete").setVisible(false);
 
-				this._recalcOrder();
+				this.recalcOrder();
 			},
 
-			_onRouteMatcheEdit: function (oEvent) {
+			onRouteMatcheEdit: function (oEvent) {
 				var that = this;
 				var oView = this.getView();
 				var oArgs = oEvent.getParameter("arguments");
@@ -330,10 +330,10 @@ sap.ui.define([
 				var oModel = this.getOwnerComponent().getModel();
 				var oModel1 = null;
 
-				this._formMode = "U";
+				this.formMode = "U";
 
 				// limpando dados
-				oModel1 = new sap.ui.model.json.JSONModel(this._createEmptyOrderObject());
+				oModel1 = new sap.ui.model.json.JSONModel(this.createEmptyOrderObject());
 				oModel1.setDefaultBindingMode(BindingMode.TwoWay);
 
 				oView.byId("OVCab.DataCriacao").setEditable(false);
@@ -353,7 +353,7 @@ sap.ui.define([
 								oOrdem.toOVItem = oData.results;
 								oModel1.setData(oOrdem);
 								oView.setModel(oModel1);
-								that._recalcOrder();
+								that.recalcOrder();
 							},
 							error: function (oResponse) {
 								oView.setBusy(false);

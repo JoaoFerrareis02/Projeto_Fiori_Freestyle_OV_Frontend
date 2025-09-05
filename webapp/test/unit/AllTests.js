@@ -1,5 +1,6 @@
 sap.ui.define([
-	"zovfrontend/test/unit/controller/View1.controller"
+	"zovfrontend/test/unit/controller/Formulario.controller",
+	"./model/formatter"
 ], function () {
 	"use strict";
 });
